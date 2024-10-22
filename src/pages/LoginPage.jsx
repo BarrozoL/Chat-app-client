@@ -7,7 +7,9 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleNavigateToHomepage = () => {};
+  const handleNavigateToHomepage = () => {
+    navigate("/homepage");
+  };
 
   const handleNavigateBack = () => {
     navigate("/");
@@ -19,7 +21,11 @@ export default function LoginPage() {
         `${import.meta.env.VITE_SERVER_URL}/auth/login`,
         { email, password }
       );
+
+      localStorage.setItem("authToken", response?.data?.authToken);
+
       console.log("User logged in successfully:", response.data);
+      handleNavigateToHomepage();
     } catch (err) {
       console.error("Error logging in user:", err);
     }
