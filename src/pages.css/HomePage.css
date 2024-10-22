@@ -1,0 +1,91 @@
+root {
+  margin: 0;
+}
+
+.private-messages-wrapper {
+  margin-top: 80px;
+  margin-bottom: 50px;
+  display: flex;
+  height: 60vh;
+  font-family: Arial, sans-serif;
+  justify-content: center;
+}
+
+/* Sidebar for the conversations */
+.conversation-sidebar {
+  width: 25vw;
+  background-color: #f0f0f0;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  padding: 10px;
+  height: 100%;
+  text-align: center;
+}
+
+.conversation-wrapper {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.conversation-wrapper:hover {
+  background-color: #c8e8d0;
+}
+
+.conversation-wrapper p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Main area for the messages */
+.messages-area {
+  width: 65vw;
+  height: 62.4vh;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: #fff;
+  position: relative;
+  flex-grow: 1;
+  overflow-y: scroll;
+  display: block;
+}
+
+/* Styling individual messages */
+.message {
+  max-width: 20%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  word-wrap: break-word;
+  flex-grow: 1;
+}
+
+.message p {
+  margin: 0;
+  font-size: 1rem;
+  align-self: center;
+  text-align: center;
+}
+
+.message-info p {
+  font-size: 0.6em;
+  margin-top: 15px;
+  text-align: end;
+}
+
+.message.sender {
+  align-self: flex-end;
+  background-color: #dcf8c6;
+  color: #000;
+  margin: 8px;
+  margin-left: auto;
+}
+
+.message.receiver {
+  align-self: flex-start;
+  background-color: #ececec;
+  color: #000;
+  margin: 8px;
+}
