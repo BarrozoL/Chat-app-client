@@ -8,6 +8,9 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const handleNavigateBack = () => {
+    navigate("/");
+  };
   const handleNavigateToLogin = () => {
     navigate("/login");
   };
@@ -62,6 +65,7 @@ export default function SignupPage() {
           />
           <button type="submit">Sign Up</button>
         </form>
+        <button onClick={handleNavigateBack}>Back</button>
       </div>
     </>
   );
