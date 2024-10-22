@@ -9,6 +9,10 @@ export default function LoginPage() {
 
   const handleNavigateToHomepage = () => {};
 
+  const handleNavigateBack = () => {
+    navigate("/");
+  };
+
   const loginUser = async () => {
     try {
       const response = await axios.post(
@@ -54,6 +58,7 @@ export default function LoginPage() {
           />
           <button type="submit">Login</button>
         </form>
+        <button onClick={handleNavigateBack}>Back</button>
       </div>
     </>
   );
