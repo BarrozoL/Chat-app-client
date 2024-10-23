@@ -30,22 +30,42 @@ export default function HomePage() {
 
   const sendMessage = async () => {
     try {
+      if (!selectedConversation) {
+        console.log("No conversation selected");
+      }
+
+      const messageReceiver = await selectedConversation?.members?.find(
+        (member) => {
+          return member._id !== currentUserId;
+        }
+      );
+
+      if (!messageReceiver) {
+        console.log("Could not find message receiver.");
+        return;
+      }
+
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/api/chat`,
         { text: messageText, sender: currentUserId, receiver: messageReceiver }
       );
       console.log("Message sent!", response.data);
+
+      //Optimistically render
+      setSelectedConversation((prevConversation) => ({
+        ...prevConversation,
+        messages: [...prevConversation.messages, response.data],
+      }));
+
+      setMessageText("");
     } catch (err) {
       console.log(err);
     }
   };
-  const messageReceiver = selectedConversation?.members?.find((member) => {
-    return member._id !== currentUserId;
-  });
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (e) => {
+    e.preventDefault();
     sendMessage();
-    setMessageText("");
   };
 
   const logoutUser = () => {
@@ -117,7 +137,7 @@ export default function HomePage() {
             );
           })}
         </div>
-        <div className="message-input">
+        <form onSubmit={handleSendMessage} className="message-input">
           <input
             className="message-input-bar"
             type="text"
@@ -125,15 +145,11 @@ export default function HomePage() {
             onChange={handleMessageTextChange}
           />
           <span>
-            <button
-              className="send-button"
-              onClick={handleSendMessage}
-              type="submit"
-            >
+            <button className="send-button" type="submit">
               <p>Send</p>
             </button>
           </span>
-        </div>
+        </form>
       </div>
     </>
   );
