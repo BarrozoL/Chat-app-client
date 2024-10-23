@@ -30,16 +30,13 @@ export default function HomePage() {
 
   const sendMessage = async () => {
     try {
+      const messageReceiver = selectedConversation?.members?.find((member) => {
+        return member._id !== currentUserId;
+      });
+
       if (!selectedConversation) {
         console.log("No conversation selected");
       }
-
-      const messageReceiver = await selectedConversation?.members?.find(
-        (member) => {
-          return member._id !== currentUserId;
-        }
-      );
-
       if (!messageReceiver) {
         console.log("Could not find message receiver.");
         return;
@@ -51,7 +48,7 @@ export default function HomePage() {
       );
       console.log("Message sent!", response.data);
 
-      //Optimistically render
+      //Changing state right after server response and rendering new message in the client
       setSelectedConversation((prevConversation) => ({
         ...prevConversation,
         messages: [...prevConversation.messages, response.data],
@@ -68,13 +65,14 @@ export default function HomePage() {
     sendMessage();
   };
 
+  const handleLogoutUser = () => {
+    logoutUser();
+  };
+
   const logoutUser = () => {
     localStorage.removeItem("authToken");
     console.log("user logged out", localStorage);
     navigate("/");
-  };
-  const handleLogoutUser = () => {
-    logoutUser();
   };
 
   const handleConversationClick = (e) => {
