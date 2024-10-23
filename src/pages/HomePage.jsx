@@ -7,6 +7,7 @@ import axios from "axios";
 export default function HomePage() {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [selectedConversation, setSelectedConversation] = useState(null);
+  const [messageText, setMessageText] = useState("");
   const token = localStorage.getItem("authToken");
   const decodedToken = token ? jwtDecode(token) : null;
   const currentUserId = decodedToken ? decodedToken._id : null;
@@ -27,17 +28,53 @@ export default function HomePage() {
     }
   };
 
-  const handleNavigateLogout = () => {
-    navigate("/");
+  const sendMessage = async () => {
+    try {
+      if (!selectedConversation) {
+        console.log("No conversation selected");
+      }
+
+      const messageReceiver = await selectedConversation?.members?.find(
+        (member) => {
+          return member._id !== currentUserId;
+        }
+      );
+
+      if (!messageReceiver) {
+        console.log("Could not find message receiver.");
+        return;
+      }
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/chat`,
+        { text: messageText, sender: currentUserId, receiver: messageReceiver }
+      );
+      console.log("Message sent!", response.data);
+
+      //Optimistically render
+      setSelectedConversation((prevConversation) => ({
+        ...prevConversation,
+        messages: [...prevConversation.messages, response.data],
+      }));
+
+      setMessageText("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    sendMessage();
   };
 
   const logoutUser = () => {
     localStorage.removeItem("authToken");
     console.log("user logged out", localStorage);
+    navigate("/");
   };
   const handleLogoutUser = () => {
     logoutUser();
-    handleNavigateLogout();
   };
 
   const handleConversationClick = (e) => {
@@ -52,21 +89,19 @@ export default function HomePage() {
     setSelectedConversation(clickedConversation);
   }
 
-  if (selectedConversation) {
-    console.log("selectedConversation", selectedConversation);
-  }
+  const handleMessageTextChange = (e) => {
+    setMessageText(e.target.value);
+  };
 
   return (
-    <div className="private-messages-wrapper">
-      {/*   <div>
+    <>
+      <div>
         <h1>Welcome {loggedInUser?.username}!</h1>
       </div>
       <div>
         <button onClick={handleLogoutUser}>Logout</button>
       </div>
- */}
-      <div>
-        <h1>Chats:</h1>
+      <div className="private-messages-wrapper">
         <div className="conversation-sidebar">
           <h2>Conversations: </h2>
           {loggedInUser?.conversations.map((conversation) => {
@@ -102,7 +137,20 @@ export default function HomePage() {
             );
           })}
         </div>
+        <form onSubmit={handleSendMessage} className="message-input">
+          <input
+            className="message-input-bar"
+            type="text"
+            value={messageText}
+            onChange={handleMessageTextChange}
+          />
+          <span>
+            <button className="send-button" type="submit">
+              <p>Send</p>
+            </button>
+          </span>
+        </form>
       </div>
-    </div>
+    </>
   );
 }
