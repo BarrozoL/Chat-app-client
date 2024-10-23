@@ -1,11 +1,6 @@
-root {
-  margin: 0;
-}
-
 .private-messages-wrapper {
-  margin-top: 80px;
-  margin-bottom: 50px;
   display: flex;
+  margin: 70px;
   height: 60vh;
   font-family: Arial, sans-serif;
   justify-content: center;
@@ -53,7 +48,6 @@ root {
   display: block;
 }
 
-/* Styling individual messages */
 .message {
   max-width: 20%;
   padding: 10px 15px;
@@ -88,4 +82,46 @@ root {
   background-color: #ececec;
   color: #000;
   margin: 8px;
+}
+
+.message-input {
+  display: flex;
+  position: absolute;
+  top: 85%;
+  width: 100vh;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  flex-wrap: wrap;
+}
+
+.message-input-bar {
+  background-color: rgb(189, 227, 206);
+  width: 80vh;
+  height: 40px;
+  padding: 5px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+}
+
+.send-button {
+  border-radius: 40%;
+  margin-left: 15px;
+  width: 10vh;
+  height: 8vh;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(15, 149, 47);
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: 1px solid black;
+}
+
+.send-button p {
+  font-weight: bold;
+  color: white;
 }
