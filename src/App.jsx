@@ -5,7 +5,8 @@ import "./App.css";
 import LandingPage from "./pages/LandingPage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
+import MessagesPage from "./pages/MessagesPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -14,8 +15,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
-
-        <Route path="/homepage" element={<HomePage />} />
+        <Route path="/messages" element={<MessagesPage />} />
+        <Route path="/personal-profile" element={<ProfilePage />} />
       </Routes>
     </Router>
   );

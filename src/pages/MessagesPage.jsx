@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import "../pages.css/HomePage.css";
+import "../pages.css/MessagesPage.css";
 import axios from "axios";
 
-export default function HomePage() {
+export default function MessagesPage() {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [messageText, setMessageText] = useState("");
@@ -95,6 +95,7 @@ export default function HomePage() {
     <>
       <div>
         <h1>Welcome {loggedInUser?.username}!</h1>
+        <img src={loggedInUser?.imageUrl} />
       </div>
       <div>
         <button onClick={handleLogoutUser}>Logout</button>

@@ -7,8 +7,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleNavigateToHomepage = () => {
-    navigate("/homepage");
+  const handleNavigateToMessagesPage = () => {
+    navigate("/messages");
   };
 
   const handleNavigateBack = () => {
@@ -25,7 +25,7 @@ export default function LoginPage() {
       localStorage.setItem("authToken", response?.data?.authToken);
 
       console.log("User logged in successfully:", response.data);
-      handleNavigateToHomepage();
+      handleNavigateToMessagesPage();
     } catch (err) {
       console.error("Error logging in user:", err);
     }

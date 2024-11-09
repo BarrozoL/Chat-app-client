@@ -6,6 +6,7 @@ export default function SignupPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
 
   const handleNavigateBack = () => {
@@ -23,12 +24,35 @@ export default function SignupPage() {
           username,
           email,
           password,
+          imageUrl,
         }
       );
       console.log("User signed up successfully:", response.data);
       handleNavigateToLogin();
     } catch (err) {
       console.error("Error signing up user:", err);
+    }
+  };
+
+  const handleUploadImageUrl = async (e) => {
+    console.log("The file to be uploaded is: ", e.target.files[0]);
+    const uploadData = new FormData();
+    // imageUrl => this name has to be the same as in the model since we pass
+    // req.body to .create() method when creating a new movie in '/api/movies' POST route
+    uploadData.append("imageUrl", e.target.files[0]);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/auth/upload`,
+        uploadData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      console.log("Image uploaded successfully:", response.data);
+      setImageUrl(response.data.fileUrl);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -63,6 +87,9 @@ export default function SignupPage() {
             value={password}
             onChange={handlePasswordChange}
           />
+          <label>Profile Picture:</label>
+          <input type="file" onChange={handleUploadImageUrl} />
+          <br />
           <button type="submit">Sign Up</button>
         </form>
         <button onClick={handleNavigateBack}>Back</button>
